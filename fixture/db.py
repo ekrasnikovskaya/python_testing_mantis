@@ -21,9 +21,16 @@ class DbFixture:
             cursor.close()
         return list
 
+    def get_project_id(self, project_name):
+        cursor = self.connection.cursor()
+        cursor.execute("select id from mantis_project_table where name = '%s'" % project_name)
+        id = str(cursor.fetchall())
+        return self.clear(id)
+
     def destroy(self):
         self.connection.close()
 
     def clear(self, s):
         return re.sub("[() '',]", "", s)
+
 
